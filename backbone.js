@@ -1329,9 +1329,6 @@
   // Cached regex for removing a trailing slash.
   var trailingSlash = /\/$/;
 
-  // Cached regex for stripping urls of hash and query.
-  var pathStripper = /[?#].*$/;
-
   // Has the history handling already been started?
   History.started = false;
 
@@ -1341,6 +1338,9 @@
     // The default interval to poll for hash changes, if necessary, is
     // twenty times a second.
     interval: 50,
+
+    // Cached regex for stripping urls of hash and query.
+    pathStripper: /[?#].*$/,
 
     // Gets the true hash value. Cannot use location.hash directly due to bug
     // in Firefox where location.hash will always be decoded.
@@ -1482,7 +1482,7 @@
       var url = this.root + (fragment = this.getFragment(fragment || ''));
 
       // Strip the fragment of the query and hash for matching.
-      fragment = fragment.replace(pathStripper, '');
+      fragment = fragment.replace(this.pathStripper, '');
 
       if (this.fragment === fragment) return;
       this.fragment = fragment;
